@@ -12,7 +12,6 @@ db_Data_Stores.Get_List('Queue').then(function(queueList){
   for (var i = 0; i < queueList.length; i++) {
     Queue_List[queueList[i].id] = [];
   }
-  console.log("Queue List Loaded: ", Queue_List);
 })
 
 router.get('/status', function(req, res){
