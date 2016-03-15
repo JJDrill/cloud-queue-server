@@ -8,7 +8,7 @@ var db_Metrics = require('../db/tbl_store_metrics');
 
 var Queue_List = {};
 
-unirest.get('http://localhost:8080/api/stores/Queue').end( function(data) {
+unirest.get('/api/stores/Queue').end( function(data) {
     for (var i = 0; i < data.body.length; i++) {
       Queue_List[data.body[i].id] = [];
     }
