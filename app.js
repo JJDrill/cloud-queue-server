@@ -26,18 +26,6 @@ app.use('/api/stores', data_stores);
 app.use('/api/queues', queues);
 app.use('/api/metrics', metrics);
 
-// db_Projects.Get_Projects().then(function(projects){
-//   for (var i = 0; i < projects.length; i++) {
-//     Start_Metrics_Channel(projects[i].Name);
-//   }
-// })
-
-// Start_Metrics_Channel();
-
-// var Start_Metrics_Channel = function(){
-  // var channelName = project_name.replace(' ', '_')
-  // var nsp = io.of(channelName);
-
 io.on("connection", function (socket){
   var metricGranularitySec = 5
   console.log('Creating metric channel...');
@@ -59,9 +47,7 @@ io.on("disconnect", function(){
   clearInterval(intervalParam);
   console.log('Client disconnected...');
 })
-// })
-// }
 
-server.listen(8080, function () {
+server.listen(process.env.PORT || 8080, function () {
   console.log("listening on 8080")
 })
