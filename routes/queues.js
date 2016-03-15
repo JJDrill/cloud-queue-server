@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var unirest = require('unirest')
+// var unirest = require('unirest')
 // var passport = require('passport');
 var knex = require('../db/knex');
 var db_Data_Stores = require('../db/tbl_data_stores');
@@ -8,11 +8,11 @@ var db_Metrics = require('../db/tbl_store_metrics');
 
 var Queue_List = {};
 
-unirest.get('/api/stores/Queue').end( function(data) {
-    for (var i = 0; i < data.body.length; i++) {
-      Queue_List[data.body[i].id] = [];
-    }
-  })
+db_Data_Stores.Get_List('Queue').then(function(queueList){
+  for (var i = 0; i < queueList.length; i++) {
+    Queue_List[queueList[i].id] = [];
+  }
+})
 
 router.get('/status', function(req, res){
   res.send(Queue_List)
