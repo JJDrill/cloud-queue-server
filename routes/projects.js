@@ -23,9 +23,9 @@ router.get('/', function(req, res){
   })
 })
 
-router.delete('/', function(req, res){
-  db_Projects.Delete_Project(req.body.name).then(function(result){
-    res.sendStatus(result);
+router.delete('/:project_name', function(req, res){
+  db_Projects.Delete_Project(req.params.project_name).then(function(result){
+    res.send("Success");
   })
 })
 

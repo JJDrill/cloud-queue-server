@@ -68,7 +68,7 @@ router.delete('/:id', function(req, res){
 
 router.put('/:id', function(req, res){
   db_Data_Stores.Update_Name(req.params.id, req.body.name).then(function(result){
-    res.sendStatus(result);
+    res.send(result);
   })
 })
 

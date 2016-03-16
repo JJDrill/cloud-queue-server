@@ -12,7 +12,7 @@ module.exports = {
 
   Add_Data_Store: function(project_group_id, store_type, data_store_name){
     return Data_Stores().insert({
-        Project_Group_ID: project_group_id,
+        Project_Name: project_group_id,
         Type_ID: store_type,
         Name: data_store_name
     })
