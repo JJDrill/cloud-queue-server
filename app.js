@@ -48,6 +48,6 @@ io.on("disconnect", function(){
   console.log('Client disconnected...');
 })
 
-server.listen(process.env.PORT || 8080, function () {
-  console.log("listening on 8080")
+server.listen(process.env.PORT || 3000, function () {
+  console.log("listening on 3000")
 })

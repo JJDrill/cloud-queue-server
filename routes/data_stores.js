@@ -19,6 +19,41 @@ router.get('/', function(req, res){
   })
 })
 
+router.get('/:project_id', function(req, res){
+  db_Data_Stores.Get_Datastore_Details(req.params.project_id)
+  .then(function(result){
+    var siteUrl = req.protocol + '://' + req.get('host') + "/api"
+
+    for (var i = 0; i < result.length; i++) {
+
+      if (result[i].Type_ID === 'Queue') {
+        var storeUrl = siteUrl + "/queues/" + result[i].id
+
+        result[i].Actions = []
+        result[i].Actions.push({
+          Name: "Enqueue",
+          Verb: "POST",
+          Url: storeUrl + "/enqueue"
+        })
+
+        result[i].Actions.push({
+          Name: "Dequeue",
+          Verb: "GET",
+          Url: storeUrl + "/dequeue"
+        })
+
+        result[i].Actions.push({
+          Name: "Purge",
+          Verb: "DELETE",
+          Url: storeUrl + "/purge"
+        })
+      }
+    }
+    // console.log("service result: ", result);
+    res.send(result);
+  })
+})
+
 router.get('/:type', function(req, res){
   db_Data_Stores.Get_List(req.params.type).then(function(result){
     res.send(result);
