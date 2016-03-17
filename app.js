@@ -3,6 +3,8 @@ var Socket = require("socket.io")
 var http = require("http")
 var bodyParser = require('body-parser');
 var cors = require('cors');
+var passport = require('passport')
+var LocalStrategy = require('passport-local')
 
 var projects = require('./routes/projects');
 var data_stores = require('./routes/data_stores');
@@ -25,6 +27,22 @@ app.use('/api/projects', projects);
 app.use('/api/stores', data_stores);
 app.use('/api/queues', queues);
 app.use('/api/metrics', metrics);
+
+passport.use(new LocalStrategy(function (username, password, done) {
+  // api.login.read(username, password)
+  // .then(function (results) {
+  //   done(null, results.rows[0])
+  // })
+  // .catch(function (error) {
+  //   done(error)
+  // })
+}))
+
+passport.serializeUser(function (user, done) {
+  done(null, JSON.stringify(user))
+})
+
+var cookieParser = require('cookie-parser')
 
 io.on("connection", function (socket){
   var metricGranularitySec = 5
