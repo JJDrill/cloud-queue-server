@@ -34,3 +34,6 @@ node_modules
 
 # Knex file with full PROD string
 knexfile.js
+
+# Dotenv file
+.env

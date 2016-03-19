@@ -3,16 +3,21 @@ var Socket = require("socket.io")
 var http = require("http")
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var passport = require('passport')
+// var passport = require('passport')
 var LocalStrategy = require('passport-local')
+// var bcrypt = require('bcrypt');
+// var LocalStrategy = require('passport-local').Strategy;
+// var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var cookieParser = require('cookie-parser')
 
+require('dotenv').load();
+
+var auth = require('./routes/auth');
 var projects = require('./routes/projects');
 var data_stores = require('./routes/data_stores');
 var queues = require('./routes/queues');
 var metrics = require('./routes/metrics');
 
-var db_Projects = require('./db/tbl_projects');
-var db_Data_Stores = require('./db/tbl_data_stores');
 var db_Store_Metrics = require('./db/tbl_store_metrics');
 
 var app = Express()
@@ -20,29 +25,16 @@ var server = http.Server(app)
 var io = Socket(server)
 
 app.use(cors());
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-app.use(Express.static("./client"))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.SECRET));
+
+app.use('/api/auth', auth.router);
 app.use('/api/projects', projects);
 app.use('/api/stores', data_stores);
 app.use('/api/queues', queues);
 app.use('/api/metrics', metrics);
 
-passport.use(new LocalStrategy(function (username, password, done) {
-  // api.login.read(username, password)
-  // .then(function (results) {
-  //   done(null, results.rows[0])
-  // })
-  // .catch(function (error) {
-  //   done(error)
-  // })
-}))
-
-passport.serializeUser(function (user, done) {
-  done(null, JSON.stringify(user))
-})
-
-var cookieParser = require('cookie-parser')
 
 io.on("connection", function (socket){
   var metricGranularitySec = 5
