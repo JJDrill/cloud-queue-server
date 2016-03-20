@@ -18,6 +18,11 @@ router.get('/status', function(req, res){
   res.send(Queue_List)
 })
 
+router.post('/:queueID/register', function(req, res){
+  Queue_List[req.params.queueID] = []
+  res.send("Success")
+})
+
 router.post('/:queueID/enqueue', function(req, res){
   Queue_List[req.params.queueID].push(req.body.message)
   res.send("Success")

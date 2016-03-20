@@ -15,7 +15,7 @@ module.exports = {
         Project_Name: project_group_id,
         Type_ID: store_type,
         Name: data_store_name
-    })
+    }, 'id')
   },
 
   Get_List: function(store_type){
