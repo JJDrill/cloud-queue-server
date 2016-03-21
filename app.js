@@ -17,6 +17,7 @@ var projects = require('./routes/projects');
 var data_stores = require('./routes/data_stores');
 var queues = require('./routes/queues');
 var metrics = require('./routes/metrics');
+var alerts = require('./routes/alerts');
 
 var db_Store_Metrics = require('./db/tbl_store_metrics');
 
@@ -34,6 +35,7 @@ app.use('/api/projects', projects);
 app.use('/api/stores', data_stores);
 app.use('/api/queues', queues);
 app.use('/api/metrics', metrics);
+app.use('/api/alerts', alerts);
 
 
 io.on("connection", function (socket){

@@ -34,5 +34,14 @@ exports.seed = function(knex, Promise) {
       Name: 'Test Queue 3'
     }),
   ]);
+}).then(function(){
+  return Promise.all([
+    knex('comparer').insert({
+      Comparer: "Greater Than"
+    }),
+    knex('comparer').insert({
+      Comparer: "Less Than"
+    })
+  ]);
 })
 };
