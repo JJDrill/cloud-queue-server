@@ -27,6 +27,15 @@ module.exports = {
     }
   },
 
+  Get_List_By_Project: function(project_id){
+    if (store_type === undefined) {
+      return Data_Stores()
+    } else {
+      return Data_Stores()
+      .where('Type_ID', store_type)
+    }
+  },
+
   Get_Datastore_Details: function(Project_Group_ID){
     return Data_Stores()
     .select('id', 'Type_ID', 'Name')

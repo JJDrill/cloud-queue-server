@@ -1,8 +1,13 @@
 var knex = require('../db/knex');
 var Active_Alerts = require('./active_alerts');
+var db_Data_Stores = require('./tbl_data_stores');
 
 function Alerts(){
   return knex('alerts')
+};
+
+function Comparer(){
+  return knex('comparer')
 };
 
 module.exports = {
@@ -18,6 +23,14 @@ module.exports = {
       .where('Enabled', true)
       .orderBy('Name')
     }
+  },
+
+  Get_Alerts_By_Project: function(project_id){
+    return knex('data_stores')
+    .select('data_stores.id', 'data_stores.Project_Name', 'data_stores.Name as Store_Name',
+    'alerts.id as Alert_ID','alerts.Name', 'alerts.Comparer', 'alerts.Value', 'alerts.Enabled')
+    .where('Project_Name', project_id)
+    .rightJoin('alerts', 'data_stores.id', 'alerts.Data_Store_ID')
   },
 
   Check_Alerts: function(store_id, store_depth){
@@ -46,6 +59,10 @@ module.exports = {
         Value: new_alert.Value,
         Enabled: true
     })
+  },
+
+  Get_Alert_Comparers: function(){
+    return Comparer()
   },
 
   Delete_Alert: function(alert_id){
