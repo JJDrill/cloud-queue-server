@@ -4,6 +4,8 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.string('Name').notNullable().unique();
     table.string('Password').notNullable();
+    table.string('Phone_Number');
+    table.boolean('Receive_SMS').notNullable();
   })
 };
 

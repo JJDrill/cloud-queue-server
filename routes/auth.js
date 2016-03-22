@@ -14,9 +14,8 @@ var db_Users = require('../db/tbl_users');
 passport.use(new LocalStrategy({
     usernameField: 'username'
   }, function(email, password, done) {
-    console.log('Logging in...')
     db_Users.Get_User_By_Name(email).then(function(user){
-      if(user && user.password !== null &&  bcrypt.compareSync(password, user.password)) {
+      if(user && user.password !== null && bcrypt.compareSync(password, user.Password)) {
         return done(null, user);
       } else {
         return done(new Error('Invalid Email or Password'));
@@ -51,10 +50,12 @@ function createToken(user, accessToken) {
 
 router.post('/signup', function(req, res, next) {
   var username = req.body.name;
+  var phone_number = req.body.phone_number
+  var receiveSMS = req.body.receiveSMS
   // Users().where('email', req.body.email).first().then(function(user){
     // if(!user) {
       var hash = bcrypt.hashSync(req.body.password, salt);
-      db_Users.Add_User(username, hash).then(function(id) {
+      db_Users.Add_User(username, hash, phone_number, receiveSMS).then(function(id) {
         createToken(username).then(function(token) {
           res.json({
             token: token
@@ -87,13 +88,10 @@ router.post('/login', function(req, res, next){
   })(req, res, next);
 });
 
-// module.exports = router;
-
 module.exports = {
   router: router,
   passport: passport,
   authenticate: function(req, res, next) {
-    console.log("test auth call");
     passport.authenticate('bearer', function(err, user, info) {
       req.user = user;
       next();

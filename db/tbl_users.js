@@ -22,10 +22,18 @@ module.exports = {
     .first();
   },
 
-  Add_User: function(user_email, user_password){
+  Get_Phone_Number_List: function(){
+    return Users()
+    .select('Phone_Number')
+    .where('Receive_SMS', true)
+  },
+
+  Add_User: function(user_email, user_password, user_phone, receiveSMS){
     return Users().insert({
         Name: user_email,
-        Password: user_password
+        Password: user_password,
+        Phone_Number: user_phone,
+        Receive_SMS: receiveSMS
     }, 'id')
   },
 

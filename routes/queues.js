@@ -5,6 +5,8 @@ var router = express.Router();
 var knex = require('../db/knex');
 var db_Data_Stores = require('../db/tbl_data_stores');
 var db_Metrics = require('../db/tbl_store_metrics');
+var db_Alerts = require('../db/tbl_alerts');
+var Active_Alerts = require('../db/active_alerts');
 
 var Queue_List = {};
 
@@ -34,6 +36,8 @@ router.post('/:queueID/enqueue', function(req, res){
     Activity_Value: 1,
     Store_Depth: Queue_List[req.params.queueID].length
   })
+
+  db_Alerts.Check_Alerts(req.params.queueID, Queue_List[req.params.queueID].length)
 })
 
 router.get('/:queueID/dequeue', function(req, res){
@@ -47,6 +51,8 @@ router.get('/:queueID/dequeue', function(req, res){
     Activity_Value: 1,
     Store_Depth: Queue_List[req.params.queueID].length
   })
+
+  db_Alerts.Check_Alerts(req.params.queueID, Queue_List[req.params.queueID].length)
 })
 
 router.delete('/:queueID/purge', function(req, res){
