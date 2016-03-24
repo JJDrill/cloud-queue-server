@@ -21,6 +21,19 @@ router.get('/', function(req, res){
   })
 })
 
+router.put('/', function(req, res){
+  var alert_info = {
+    id: req.body.id,
+    Name: req.body.name,
+    Comparer: req.body.comparer,
+    Value: req.body.value,
+    Enabled: req.body.enabled
+  }
+  db_Alerts.Update_Alert(alert_info).then(function(message){
+    res.sendStatus(200)
+  })
+})
+
 router.get('/:store_id', function(req, res){
   db_Alerts.Get_Alerts(req.params.store_id).then(function(message){
     res.send(message)

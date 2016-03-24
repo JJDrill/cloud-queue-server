@@ -13,7 +13,7 @@ function Comparer(){
 module.exports = {
 
   Get_Alerts: function(store_id){
-    if (store_id === undefined) {
+    if (store_id === undefined || store_id === "byproject") {
       return Alerts()
       .where('Enabled', true)
       .orderBy('Name')
@@ -31,6 +31,7 @@ module.exports = {
     'alerts.id as Alert_ID','alerts.Name', 'alerts.Comparer', 'alerts.Value', 'alerts.Enabled')
     .where('Project_Name', project_id)
     .rightJoin('alerts', 'data_stores.id', 'alerts.Data_Store_ID')
+    .orderBy('alerts.Name')
   },
 
   Check_Alerts: function(store_id, store_depth){
@@ -58,6 +59,17 @@ module.exports = {
         Comparer: new_alert.Comparer,
         Value: new_alert.Value,
         Enabled: true
+    })
+  },
+
+  Update_Alert: function(alert_info){
+    return Alerts()
+    .where('id', alert_info.id)
+    .update({
+        Name: alert_info.Name,
+        Comparer: alert_info.Comparer,
+        Value: alert_info.Value,
+        Enabled: alert_info.Enabled
     })
   },
 
